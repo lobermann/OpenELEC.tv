@@ -24,6 +24,7 @@ PKG_LICENSE="GPL"
 PKG_SITE="http://e2fsprogs.sourceforge.net/"
 PKG_URL="$SOURCEFORGE_SRC/$PKG_NAME/$PKG_NAME/1.42/$PKG_NAME-$PKG_VERSION.tar.gz"
 PKG_DEPENDS_TARGET="toolchain"
+PKG_DEPENDS_INIT="toolchain"
 PKG_PRIORITY="optional"
 PKG_SECTION="tools"
 PKG_SHORTDESC="e2fsprogs: Utilities for use with the ext2 filesystem"
@@ -64,9 +65,53 @@ PKG_CONFIGURE_OPTS_TARGET="BUILD_CC=$HOST_CC \
                            --disable-rpath \
                            --with-gnu-ld"
 
+PKG_CONFIGURE_OPTS_INIT="BUILD_CC=$HOST_CC \
+                         --prefix=/usr \
+                         --bindir=/bin \
+                         --sbindir=/sbin \
+                         --enable-verbose-makecmds \
+                         --enable-symlink-install \
+                         --enable-symlink-build \
+                         --disable-compression \
+                         --disable-htree \
+                         --disable-elf-shlibs \
+                         --disable-bsd-shlibs \
+                         --disable-profile \
+                         --disable-jbd-debug \
+                         --disable-blkid-debug \
+                         --disable-testio-debug \
+                         --enable-libuuid \
+                         --enable-libblkid \
+                         --disable-debugfs \
+                         --disable-imager \
+                         --disable-resizer \
+                         --disable-fsck \
+                         --disable-e2initrd-helper \
+                         --disable-tls \
+                         --disable-uuidd \
+                         --disable-nls \
+                         --disable-rpath \
+                         --with-gnu-ld \
+                         --enable-static \
+                         --disable-shared"
+
 pre_configure_target() {
 # e2fsprogs fails to build with LTO support on gcc-4.9
   strip_lto
+}
+
+pre_configure_init() {
+# e2fsprogs fails to build with LTO support on gcc-4.9
+  strip_lto
+  export LDFLAGS="$LDFLAGS -static"
+}
+
+makeinstall_init() {
+  mkdir -p $INSTALL/sbin
+  cp -P $ROOT/$PKG_BUILD/.${TARGET_NAME}-init/misc/mke2fs $INSTALL/sbin/.
+  ln -s /sbin/mke2fs $INSTALL/sbin/mkfs.ext3
+  ln -s /sbin/mke2fs $INSTALL/sbin/mkfs.ext4
+  $STRIP $INSTALL/sbin/mke2fs
 }
 
 post_makeinstall_target() {
