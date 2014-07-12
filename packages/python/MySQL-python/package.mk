@@ -19,7 +19,7 @@
 PKG_NAME="MySQL-python"
 PKG_VERSION="1.2.5"
 PKG_REV="1"
-PKG_ARCH="any"
+PKG_ARCH="i386 x86_64"
 PKG_LICENSE="GPL-2"
 PKG_SITE="https://pypi.python.org/pypi/MySQL-python"
 PKG_URL="https://pypi.python.org/packages/source/M/$PKG_NAME/$PKG_NAME-$PKG_VERSION.zip"
@@ -50,4 +50,3 @@ make_target() {
 makeinstall_target () {
   python setup.py install --root=$INSTALL --prefix=/usr
 }
-
