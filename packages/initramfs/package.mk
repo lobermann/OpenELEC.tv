@@ -36,6 +36,14 @@ if [ "$ISCSI_SUPPORT" = yes ]; then
   PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET open-iscsi:init"
 fi
 
+if [ "$MKFS_IN_INITRAMFS_SUPPORT" == "yes" ]; then
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET e2fsprogs:init"
+fi
+
+if [ "$PARTEDSTATIC_IN_INITRAMFS_SUPPORT" == "yes" ]; then
+  PKG_DEPENDS_TARGET="$PKG_DEPENDS_TARGET parted-static-x64:init"
+fi
+
 post_install() {
   cd $ROOT/$BUILD/initramfs
     mkdir -p $ROOT/$BUILD/image/
