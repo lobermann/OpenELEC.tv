@@ -6,8 +6,8 @@ index aa810d9..0e9500a 100644
      bool del = true;
      if (parentPathsDeleteDecision == parentPathsDeleteDecisions.end())
      {
--      std::string parentPath = m_pDS->fv(4).get_asString();
--      bool parentPathNotExists = !CDirectory::Exists(parentPath, false);
+      std::string parentPath = m_pDS->fv(4).get_asString();
+      bool parentPathNotExists = !CDirectory::Exists(parentPath, false);
 -      // if the parent path exists, the file will be deleted without asking
 -      // if the parent path doesn't exist, ask the user whether to remove all items it contained
 -      if (parentPathNotExists)
@@ -34,7 +34,7 @@ index aa810d9..0e9500a 100644
 -          }
 -        }
 -      }
--
+
        parentPathsDeleteDecisions.insert(make_pair(parentPathID, make_pair(parentPathNotExists, del)));
      }
      // the only reason not to delete the file is if the parent path doesn't
